@@ -26,7 +26,7 @@ activity$interval <- as.numeric(activity$interval)
 steps.date <- aggregate(steps ~ date, data=activity, FUN=sum, na.rm=TRUE)
 barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
 ```
-![plot of chunk Rplot1](graph/Rplot1.png)
+![plot of chunk Rplot1](figure/Rplot1.png)
 
 2. Calculate and report the **mean** and **median** total number of　steps taken per day
 ```r
@@ -41,7 +41,7 @@ across all days (y-axis)
 steps.interval <- aggregate(steps ~ interval, data=activity, FUN=mean)
 plot(steps.interval, type="l")
 ```
-![plot of chunk Rplot1](graph/Rplot2.png)
+![plot of chunk Rplot1](figure/Rplot2.png)
 
 2. Which 5-minute interval, on average across all the days in the
 dataset, contains the maximum number of steps?
@@ -79,7 +79,7 @@ barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
 mean(steps.date$steps)
 median(steps.date$steps)
 ```
-![plot of chunk Rplot1](graph/Rplot3.png)
+![plot of chunk Rplot1](figure/Rplot3.png)
 
 The impact of the missing data seems rather low, at least when
 estimating the total number of steps per day.
@@ -108,4 +108,4 @@ FUN=mean)
 plot(steps.type, type="l", main=type)
 }
 ```
-![plot of chunk Rplot1](graph/Rplot4.png)
+![plot of chunk Rplot1](figure/Rplot4.png)
