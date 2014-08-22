@@ -3,15 +3,17 @@ Reproducible Research: Peer Assessment 1
 github repo with RMarkdown source code:
 https://github.com/englianhu/RepData_PeerAssessment1
 ## Loading and preprocessing the data
-```{r setoptions, echo=TRUE}
+```r
 require('ggplot2')
 if(!file.exists('./data')){dir.create('./data')}
 fileUrl <- 'https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip'
 destfile <- 'repdata_data_activity.zip'
 download.file(fileUrl, destfile=paste('data', destfile, sep='/'))
+
 ## Unzip the dataset
 unzip(paste('data', destfile, sep='/'), exdir='data')
 data_dir <- setdiff(dir('data'), destfile)
+
 ## Read the dataset
 activity <- read.csv('./data/activity.csv', header=T, sep=',', na.strings='?', nrows=17568)
 activity$steps <- as.numeric(activity$steps)
@@ -20,12 +22,12 @@ activity$interval <- as.numeric(activity$interval)
 ```
 ## What is mean total number of steps taken per day?
 1. Make a histogram of the total number of steps taken each day
-```{r setoptions, echo=TRUE}
+```r
 steps.date <- aggregate(steps ~ date, data=activity, FUN=sum, na.rm=TRUE)
 barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
 ```
 2. Calculate and report the **mean** and **median** total number of　steps taken per day
-```{r setoptions, echo=TRUE}
+```r
 mean(steps.date$steps)
 median(steps.date$steps)
 ```
@@ -33,19 +35,19 @@ median(steps.date$steps)
 1. Make a time series plot (i.e. `type = "l"`) of the 5-minute
 interval (x-axis) and the average number of steps taken, averaged
 across all days (y-axis)
-```{r setoptions, echo=TRUE}
+```r
 steps.interval <- aggregate(steps ~ interval, data=activity, FUN=mean)
 plot(steps.interval, type="l")
 ```
 2. Which 5-minute interval, on average across all the days in the
 dataset, contains the maximum number of steps?
-```{r setoptions, echo=TRUE}
+```r
 steps.interval$interval[which.max(steps.interval$steps)]
 ```
 ## Inputing missing values
 1. Calculate and report the total number of missing values in the
 dataset (i.e. the total number of rows with `NA`s)
-```{r setoptions, echo=TRUE}
+```r
 sum(is.na(activity))
 ```
 2. Devise a strategy for filling in all of the missing values in the
@@ -56,7 +58,7 @@ I will use the means for the 5-minute intervals as fillers for missing
 values.
 3. Create a new dataset that is equal to the original dataset but with
 the missing data filled in.
-```{r setoptions, echo=TRUE}
+```r
 activity <- merge(activity, steps.interval, by="interval", suffixes=c("",".y"))
 nas <- is.na(activity$steps)
 activity$steps[nas] <- activity$steps.y[nas]
@@ -67,7 +69,7 @@ Calculate and report the **mean** and **median** total number of
 steps taken per day. Do these values differ from the estimates from
 the first part of the assignment? What is the impact of imputing
 missing data on the estimates of the total daily number of steps?
-```{r setoptions, echo=TRUE}
+```r
 steps.date <- aggregate(steps ~ date, data=activity, FUN=sum)
 barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
 mean(steps.date$steps)
@@ -79,7 +81,7 @@ estimating the total number of steps per day.
 1. Create a new factor variable in the dataset with two levels --
 "weekday" and "weekend" indicating whether a given date is a
 weekday or weekend day.
-```{r setoptions, echo=TRUE, cache=TRUE}
+```r
 daytype <- function(date) {
 if (weekdays(as.Date(date)) %in% c("Saturday", "Sunday")) {
 "weekend"
@@ -90,7 +92,7 @@ activity$daytype <- as.factor(sapply(activity$date, daytype))
 of the 5-minute interval (x-axis) and the average number of steps
 taken, averaged across all weekday days or weekend days
 (y-axis).
-```{r setoptions, echo=TRUE}
+```r
 par(mfrow=c(2,1))
 for (type in c("weekend", "weekday")) {
 steps.type <- aggregate(steps ~ interval,
