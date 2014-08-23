@@ -24,9 +24,7 @@ activity$interval <- as.numeric(activity$interval)
 1. Make a histogram of the total number of steps taken each day
 ```r
 steps.date <- aggregate(steps ~ date, data=activity, FUN=sum, na.rm=TRUE)
-barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
-```
-```{r,echo=FALSE}
+#barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
 barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
 ```
 
@@ -79,12 +77,8 @@ the first part of the assignment? What is the impact of imputing
 missing data on the estimates of the total daily number of steps?
 ```r
 steps.date <- aggregate(steps ~ date, data=activity, FUN=sum)
+#barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
 barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
-```
-```{r,echo=FALSE}
-barplot(steps.date$steps, names.arg=steps.date$date, xlab="date", ylab="steps")
-```
-```r
 mean(steps.date$steps)
 median(steps.date$steps)
 ```
@@ -106,6 +100,13 @@ of the 5-minute interval (x-axis) and the average number of steps
 taken, averaged across all weekday days or weekend days
 (y-axis).
 ```r
+#par(mfrow=c(2,1))
+#for (type in c("weekend", "weekday")) {
+#steps.type <- aggregate(steps ~ interval,
+#data=activity,
+#subset=activity$daytype==type,
+#FUN=mean)
+#plot(steps.type, type="l", main=type)
 par(mfrow=c(2,1))
 for (type in c("weekend", "weekday")) {
 steps.type <- aggregate(steps ~ interval,
@@ -114,7 +115,4 @@ subset=activity$daytype==type,
 FUN=mean)
 plot(steps.type, type="l", main=type)
 }
-```
-```{r,echo=FALSE}
-plot(steps.type, type="l", main=type)
 ```
